@@ -63,8 +63,8 @@ app.post('/predict', upload.single('image'), async (req, res) => {
   } finally {
     // Xóa file upload sau khi xử lý
     fs.unlink(req.file.path, (err) => {
-      if (err) console.error('⚠️ Error deleting file:', err);
-      else console.log('🧹 Uploaded file deleted.');
+      if (err) console.error('Error deleting file:', err);
+      else console.log('Uploaded file deleted.');
     });
   }
 });
