@@ -36,20 +36,20 @@ app.post('/predict', upload.single('image'), async (req, res) => {
   try {
 
     const imageBuffer = fs.readFileSync(req.file.path);
-    
-    const imageTensor = tf.node
-        .decodeImage(imageBuffer, 3)
-        .resizeBilinear([224, 224]) 
-        .expandDims(0)              
-        .div(255.0);               
 
-    
+    const imageTensor = tf.node
+      .decodeImage(imageBuffer, 3)
+      .resizeBilinear([224, 224])
+      .expandDims(0)
+      .div(255.0);
+
+
     const predictionTensor = model.predict(imageTensor);
     const predictions = await predictionTensor.data();
 
     console.log('Predictions:', predictions);
 
-    
+
     const predictionsArray = Array.from(predictions);
 
 
@@ -61,7 +61,7 @@ app.post('/predict', upload.single('image'), async (req, res) => {
     console.error('Error during prediction:', error);
     res.status(500).send('Prediction failed.');
   } finally {
-    
+
     fs.unlink(req.file.path, (err) => {
       if (err) console.error('Error deleting file:', err);
       else console.log('Uploaded file deleted.');
